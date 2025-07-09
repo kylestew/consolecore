@@ -1,0 +1,25 @@
+.DS_Store
+
+# Compiled binary
+ascii_anim
+ccore
+
+# Object files
+*.o
+
+# Debug files
+*.dSYM/
+*.log
+*.out
+*.core
+core
+
+# Build artifacts (if using Make)
+build/
+
+# Editor/IDE junk
+*.swp
+*~
+.vscode/
+*.DS_Store
+
