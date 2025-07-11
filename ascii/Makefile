@@ -5,7 +5,7 @@ LDFLAGS = -lncurses
 SRC = $(wildcard src/*.c src/layers/*.c)
 OBJ = $(SRC:.c=.o)
 
-TARGET = ccore
+TARGET = ascii
 
 all: $(TARGET)
 

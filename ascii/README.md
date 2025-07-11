@@ -21,6 +21,7 @@ It features a modular layer stack architecture, blend modes, real-time animation
 - `GradientLayer`: horizontal brightness ramp
 - `NoiseLayer`: random sparkles or texture
 - `MathLayer`: animated function visualization (e.g. ripple rings)
+- Simple Shapes (SDF 2d)
 
 ---
 
@@ -28,14 +29,16 @@ It features a modular layer stack architecture, blend modes, real-time animation
 
 ```bash
 make
-./ccore
+./ascii
 ```
 
 ---
 
 ## 📋 TODO
 
+- Get aspect ratio fixed
 - More layer types
+- Animation system (parameters)
 - Add interactive TUI for adding/removing layers
 - Layer parameter adjustment (scale, speed, blend) at runtime
 - Keybindings for toggling layers on/off
@@ -43,5 +46,12 @@ make
 - Save/load composition
 
 ### Layers to make:
+
+- Simplex / Perlin noise
+- Warp incoming layer (FBM)
 - Fire
 - Fluid sim
+- FBM layer (clouds)
+- 3D model rasterizer
+- Bytebeat visuals layer
+

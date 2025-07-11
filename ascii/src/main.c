@@ -4,6 +4,7 @@
 #include "layers/math_layer.h"
 #include "layers/noise_layer.h"
 
+#include <locale.h>
 #include <math.h>
 #include <ncurses.h>
 #include <stdlib.h>
@@ -13,15 +14,21 @@
 
 #define FRAME_DELAY 0.033f // seconds (~30 FPS)
 
-const char *palette = " .:-=+*#%@";
+// const char *palette = " .:-=+*#%@";
 // const char *palette = "0123456789";
+// const char *palette = "Ñ@#W$9876543210?!abc;:+=-,._ ";
+// const char *palette = "█▓▒░ ";
+static const char *palette[] = {"█", "▓", "▒", "░", " "};
+// chars = "█▓▒░⌂☺☻♠♣♦♥◘○◙♂♀♪♫☼►◄↕‼¶§▬↨↑↓→←∟↔▲▼ "  # Dwarf Fortress-inspired characters
 
-char map_value_to_char(float v) {
+const char *map_value_to_char(float v) {
     if (v < 0.0f)
         v = 0.0f;
     if (v > 1.0f)
         v = 1.0f;
-    int idx = round(v * (strlen(palette) - 1));
+
+    int palette_len = sizeof(palette) / sizeof(palette[0]);
+    int idx         = round(v * (palette_len - 1));
     return palette[idx];
 }
 
@@ -65,6 +72,8 @@ void draw_overlay_ui(int width, int height, LayerStack *stack) {
 }
 
 int main(void) {
+    setlocale(LC_ALL, "");
+
     // init screen
     initscr();
     noecho();
@@ -102,7 +111,7 @@ int main(void) {
     // Layer *gradient = create_gradient_layer();
     // gradient->blend = BLEND_REPLACE; // base image
     // layer_stack_push(&stack, gradient);
-    //
+
     // Layer *noise = create_noise_layer(0.4f);
     // noise->blend = BLEND_ADD; // add sparkles on top
     // layer_stack_push(&stack, noise);
@@ -136,7 +145,7 @@ int main(void) {
             move(y, 0);
             for (int x = 0; x < width; x++) {
                 float v = buffer[y * width + x].value;
-                addch(map_value_to_char(v));
+                addstr(map_value_to_char(v));
             }
         }
 
