@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 typedef struct {
-    void (*process)(void *self, u_int32_t *color_buffer, int width, int height);
+    void (*process)(void *self, u_int32_t *out_buffer, u_int32_t *in_buffer, int width, int height);
 
     // pixel data before converting to an SDL texture on the final output
     u_int32_t *color_buffer;

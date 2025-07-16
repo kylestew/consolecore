@@ -11,7 +11,9 @@ typedef struct {
 
 static inline u_int8_t lerp_u8(u_int8_t a, u_int8_t b, float t) { return (u_int8_t) (a + (b - a) * t); }
 
-void gradient_process(void *self, u_int32_t *buffer, int w, int h) {
+void gradient_process(void *self, u_int32_t *buffer, u_int32_t *in_buffer, int w, int h) {
+    (void) in_buffer;
+
     GradientLayerData *data = (GradientLayerData *) self;
 
     float cx = w / 2.0f;
@@ -27,7 +29,7 @@ void gradient_process(void *self, u_int32_t *buffer, int w, int h) {
             float relx = x - cx;
             float rely = y - cy;
 
-            float t = (relx * dx + rely + dy) / half_diag; // project onto direction
+            float t = (relx * dx + rely * dy) / half_diag; // project onto direction
             t       = (t + 1.0f) * 0.5f;                   // map from [-1,1] → [0,1]
 
             if (t < 0.0f)

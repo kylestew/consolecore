@@ -2,6 +2,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <sys/_types/_u_int32_t.h>
 
 typedef struct {
     SDFShape shape;
@@ -11,7 +12,9 @@ typedef struct {
     float center_x, center_y;
 } SDFLayerData;
 
-void sdf_process(void *self, u_int32_t *color_buffer, int width, int height) {
+void sdf_process(void *self, u_int32_t *color_buffer, u_int32_t *in_buffer, int width, int height) {
+    (void) in_buffer;
+
     SDFLayerData *data = (SDFLayerData *) self;
 
     // normalize coordinates
@@ -36,11 +39,15 @@ void sdf_process(void *self, u_int32_t *color_buffer, int width, int height) {
             float dist = sqrt(dx * dx + dy * dy);
 
             uint8_t r = 0;
-            if (dist < data->param1)
-                r = 255.0;
 
             uint8_t g = 0;
             uint8_t b = 0;
+            uint8_t a = 0;
+
+            if (dist < data->param1) {
+                r = 255;
+                a = 255;
+            }
 
             // // show edges
             // if (pX > 1.0) {
@@ -50,7 +57,7 @@ void sdf_process(void *self, u_int32_t *color_buffer, int width, int height) {
             //     b = 128.0;
             // }
 
-            color_buffer[y * width + x] = (0xFFu << 24) | (r << 16) | (g << 8) | b;
+            color_buffer[y * width + x] = (a << 24) | (r << 16) | (g << 8) | b;
         }
     }
 }

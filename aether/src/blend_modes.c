@@ -9,7 +9,7 @@ u_int32_t blend_colors(u_int32_t dst, u_int32_t src, BlendMode mode) {
     case BLEND_ADD:
         return dst + src;
     case BLEND_MULTIPLY:
-        return dst * src;
+        return (((float) dst / 255.0) * ((float) src / 255.0)) * 255.0;
     case BLEND_MAX:
         if (src > dst)
             return src;

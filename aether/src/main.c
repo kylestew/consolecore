@@ -3,6 +3,7 @@
 #include "layer.h"
 #include "layer_stack.h"
 #include "layers/gradient_layer.h"
+#include "layers/invert_layer.h"
 #include "layers/sdf_layer.h"
 
 #include <SDL2/SDL.h>
@@ -31,9 +32,12 @@ bool setup() {
     Layer *gradient = create_gradient_layer(0xFF0000FF, 0xFFFFD700, M_PI / 4.0f);
     layer_stack_push(&stack, gradient);
 
-    Layer *circle = create_sdf_layer(SDF_SHAPE_CIRCLE, 0.4, -1, 0.1, 0.5, 0.5);
-    circle->blend = BLEND_ADD;
-    layer_stack_push(&stack, circle);
+    Layer *invert = create_invert_layer();
+    layer_stack_push(&stack, invert);
+
+    // Layer *circle = create_sdf_layer(SDF_SHAPE_CIRCLE, 0.4, -1, 0.1, 0.5, 0.5);
+    // circle->blend = BLEND_MULTIPLY;
+    // layer_stack_push(&stack, circle);
 
     return true;
 }
@@ -62,15 +66,10 @@ void update() {
         Layer *layer = stack.items[i];
 
         // optional update function call
-        // if (layer->update)
-        //     layer->update(layer->data, dt);
-
-        // clear temp buffer
-        for (int j = 0; j < window_width * window_height; ++j)
-            temp_buffer[j] = 0x0;
+        // if (layer->update) layer->update(layer->data, dt);
 
         // generate layer output into temp
-        layer->process(layer->data, temp_buffer, window_width, window_height);
+        layer->process(layer->data, temp_buffer, buffer, window_width, window_height);
 
         // blend into main output buffer
         // for (int j = 0; j < window_width * window_height; ++j) {
