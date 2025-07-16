@@ -3,7 +3,7 @@
 
 #include "layer.h"
 
-Layer *create_gradient_layer();
+Layer *create_gradient_layer(int width, int height);
 void destroy_gradient_layer(Layer *layer);
 
 #endif
